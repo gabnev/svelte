@@ -11,6 +11,7 @@
 	import Navbar from './Navbar.svelte';
 	import ExpensesList from './ExpensesList.svelte';
 	import Totals from './Totals.svelte'
+	import ExpenseForm from './ExpenseForm.svelte'
 	
 	// Data
 	import expensesData from './expenses';
@@ -20,7 +21,6 @@
 
 	// reactive variable
 	$: total = expenses.reduce((accumulator, current)=>{
-		console.log(accumulator, current.amount)
 		return (accumulator += current.amount)
 	}, 0)
 
@@ -41,6 +41,7 @@
 <Navbar />
 
 <main class="content">
+	<ExpenseForm />
 	<Totals title="Total Expenses" total={total}/>
 	<ExpensesList {expenses} />
 	<button type="button" class="btn btn-primary btn-block" on:click={clearExpenses}>Clear Expenses</button>
