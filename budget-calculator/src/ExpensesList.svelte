@@ -17,7 +17,7 @@
     {#each expenses as expense}
       <Expense {...expense} />
     {:else}
-      <h2>no expenses right now</h2>
+      <h2>No expenses right now</h2>
     {/each}
   </ul>
 </section>
