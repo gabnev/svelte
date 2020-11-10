@@ -1,30 +1,51 @@
 <script>
   import Title from "./Title.svelte";
-
-  let name = "";
-  let amount = 0;
+  export let name = "";
+  export let amount = 0;
+  export let addExpense;
+  export let isEditing;
+  export let editExpense;
+  export let closeForm;
 
   $: isEmpty = !name || !amount;
+
+  function handleSumbit() {
+    if (isEditing) {
+      editExpense({ name, amount });
+    } else {
+      addExpense({ name, amount });
+    }
+    name = "";
+    amount = null;
+  }
 </script>
 
 <section class="form">
   <Title title="Add Expense" />
-  <form class="expense-form">
+  <form class="expense-form" on:submit|preventDefault={handleSumbit}>
     <div class="form-control">
       <label for="name">Name</label>
       <input type="text" id="name" bind:value={name} />
     </div>
+
     <div class="form-control">
       <label for="amount">Amount</label>
-      <input type="text" id="amount" bind:value={amount} />
+      <input type="number" id="amount" bind:value={amount} />
     </div>
+
     {#if isEmpty}
       <p class="form-empty">Please fill out all form fields</p>
     {/if}
-    <button type="submit" class="btn btn-block" disabled={isEmpty} class:disabled={isEmpty}>
-      Add Expense
+
+    <button
+      type="submit"
+      class="btn btn-block"
+      disabled={isEmpty}
+      class:disabled={isEmpty}>
+      {#if isEditing}Edit Expense{:else}Add Expense{/if}
     </button>
-    <button type="button" class="close-btn">
+
+    <button type="button" class="close-btn" on:click={closeForm}>
       <i class="fas fa-times" />
       Close
     </button>
