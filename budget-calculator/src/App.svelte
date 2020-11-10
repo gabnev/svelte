@@ -1,6 +1,6 @@
 <script>
 	// bringing setContext from svelte
-	import { setContext } from "svelte";
+	import { setContext, onMount } from "svelte";
 
 	// Example: setting object to hold the information
 	const state = {
@@ -14,10 +14,10 @@
 	import ExpenseForm from "./ExpenseForm.svelte";
 
 	// Data
-	import expensesData from "./expenses";
+	// import expensesData from "./expenses";
 
 	// Variables & functions
-	let expenses = [...expensesData];
+	let expenses = [];
 
 	// Editing
 	let setName = "";
@@ -35,6 +35,8 @@
 		return (accumulator += current.amount);
 	}, 0);
 
+	// functions
+
 	function showForm() {
 		isFormOpen = true;
 	}
@@ -48,15 +50,18 @@
 
 	function removeExpense(id) {
 		expenses = expenses.filter((expense) => expense.id != id);
+		setLocalStorage();
 	}
 
 	function clearExpenses() {
 		expenses = [];
+		setLocalStorage();
 	}
 
 	function addExpense({ name, amount }) {
 		let expense = { id: Math.random() * Date.now(), name, amount };
 		expenses = [expense, ...expenses];
+		setLocalStorage();
 	}
 
 	function setModifiedExpense(id) {
@@ -83,11 +88,21 @@
 		setId = null;
 		setAmount = null;
 		setName = "";
+		setLocalStorage();
 	}
 
 	// Creating the setContext content
 	setContext("remove", removeExpense);
 	setContext("modify", setModifiedExpense);
+
+	// local storage
+	function setLocalStorage() {
+		localStorage.setItem('expenses', JSON.stringify(expenses));
+	}
+
+	onMount(() => {
+		expenses = localStorage.getItem('expenses') ? JSON.parse(localStorage.getItem('expenses')) : []
+	})
 </script>
 
 <Navbar {showForm} />

@@ -1,4 +1,23 @@
 <script>
+  import {onMount, onDestroy, beforeUpdate, afterUpdate} from 'svelte'
+
+  
+  // beforeUpdate(() => {
+  //   console.log('form is wating to be mounted')
+  // })
+  
+  // onMount(() => {
+  //   console.log('form has mounted')
+  // })
+
+  // afterUpdate(() => {
+  //   console.log('form has been updated')
+  // })
+  
+  // onDestroy(() => {
+  //   console.log('form has been destroyed')
+  // })
+  
   import Title from "./Title.svelte";
   export let name = "";
   export let amount = 0;
