@@ -36,6 +36,7 @@
     }
     name = "";
     amount = null;
+    closeForm();
   }
 </script>
 
